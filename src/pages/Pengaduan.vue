@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-    <h1>Pengaduan</h1>
+    <div class="text-h2">Pengaduan</div>
   </q-page>
 </template>
 

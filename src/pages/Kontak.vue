@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-    <div class="text-h2">Home</div>
+      <div class="text-h2">Profile</div>
   </q-page>
 </template>
 
@@ -13,12 +13,16 @@ import {
 } from "@vue/composition-api";
 
 export default defineComponent({
-  props: {},
+  props: {
+  },
 
   setup(props, { root: { $router } }) {
-    const state = reactive({});
+    const state = reactive({
+    });
 
-    onMounted(() => {});
+    onMounted(() => {
+        console.log('mounted!');
+    });
 
     return {
       ...toRefs(state),

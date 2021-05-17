@@ -10,6 +10,7 @@
           <q-btn to="/" stretch flat label="Home" />
           <q-btn to="/profile" stretch flat label="Profile" />
           <q-btn to="/pengaduan" stretch flat label="Pengaduan" />
+          <q-btn to="/kontak" stretch flat label="Kontak" />
         </q-toolbar-title>
 
         <div v-if="isLogin">

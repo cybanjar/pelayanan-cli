@@ -13,6 +13,9 @@ const routes = [
       { 
         path: '/profile', component: () => import('pages/Profile.vue') 
       },
+      { 
+        path: '/kontak', component: () => import('pages/Kontak.vue') 
+      },
     ]
   },
 
