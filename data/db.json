@@ -1,0 +1,51 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    },
+    {
+      "title": "vue js",
+      "author": "amin",
+      "id": 2
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "userAuth": [
+    {
+      "username": "admin",
+      "email": "admin@gmail.com",
+      "password": "12345678",
+      "level": "admin",
+      "id": 1
+    },
+    {
+      "username": "ahmad",
+      "email": "ahmad@gmail.com",
+      "password": "12345678",
+      "level": "pengunjung",
+      "id": 2
+    },
+    {
+      "username": "sarah",
+      "email": "sarah@gmail.com",
+      "password": "12345678",
+      "level": "camat",
+      "id": 3
+    },
+    {
+      "username": "diana",
+      "email": "diana@gmail.com",
+      "password": "12345678",
+      "level": "pengunjung",
+      "id": 4
+    }
+  ]
+}
