@@ -18,7 +18,7 @@
           <q-btn to="/login" class="shadow-xl px-2" color="primary" rounded unelevated label="Login" />
         </div>
         <div v-else>
-          <q-btn to="/" class="shadow-xl" color="primary" icon="logout" rounded unelevated />
+          <q-btn to="/" class="shadow-xl" color="primary" label="Logout" rounded unelevated />
         </div>
       </q-toolbar>
     </q-header>

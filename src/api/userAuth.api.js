@@ -1,7 +1,7 @@
 import ky from "ky";
 
-const authBaseURL = "http://localhost:3004/";
-// ky.defaults.baseURL = "http://localhost:8000/api/";
+// const authBaseURL = "http://localhost:3004/";
+const authBaseURL = "http://localhost:8000/api/";
 
 
 

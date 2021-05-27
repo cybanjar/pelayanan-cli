@@ -12,13 +12,16 @@ import {
   onMounted,
 } from "@vue/composition-api";
 
+
 export default defineComponent({
   props: {},
 
   setup(props, { root: { $router } }) {
     const state = reactive({});
 
-    onMounted(() => {});
+    onMounted(() => {
+     
+    });
 
     return {
       ...toRefs(state),

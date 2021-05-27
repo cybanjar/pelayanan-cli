@@ -11,17 +11,19 @@ import {
   toRefs,
   onMounted,
 } from "@vue/composition-api";
+import { Notify } from "quasar";
 
 export default defineComponent({
-  props: {
-  },
+  props: {},
 
   setup(props, { root: { $router } }) {
-    const state = reactive({
-    });
+    const state = reactive({});
 
     onMounted(() => {
-        console.log('mounted!');
+      Notify.create({
+        message: "Welcome ",
+        color: "info",
+      });
     });
 
     return {

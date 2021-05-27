@@ -13,20 +13,20 @@
         </q-card-section>
 
         <q-card-section>
-          <q-form @submit.prevent="onSubmit" class="q-gutter-md">
-            <q-input
-              outlined
-              v-model="form.email"
-              label="Username *"
-              lazy-rules
-              :rules="[
-                (val) => (val && val.length > 0) || 'Please type something',
-              ]"
-            >
+          <q-form @submit.prevent="onLogin" class="q-gutter-md">
+            <q-input outlined v-model="form.email" label="Email *" type="email">
               <template v-slot:append>
                 <q-icon name="person" class="cursor-pointer" />
               </template>
             </q-input>
+
+            <q-select
+              color="primary"
+              outlined
+              v-model="form.level"
+              :options="form.optionsLevel"
+              label="Level"
+            />
 
             <q-input
               outlined
@@ -81,57 +81,72 @@ import {
   defineComponent,
   reactive,
   toRefs,
+  ref,
   onMounted,
-  computed,
-  watch,
 } from "@vue/composition-api";
 import api from "../api/userAuth.api";
+import axios from "axios";
 import { Notify } from "quasar";
 
 export default defineComponent({
   props: {},
-  setup(props, { root: { $router }, emit }) {
+  setup(props, { root }) {
     const state = reactive({
       form: {
-        email: '',
-        password: ''
+        email: "",
+        password: "",
+        level: "",
+        optionsLevel: ["admin", "pengunjung", "camat"],
       },
       isPwd: true,
       result: "",
+      count: 1,
+      validation: false,
     });
 
-    onMounted(async () => {
-      // if (sessionStorage.getItem("login")) {
-      //   $router.push("/");
-      // }
-    });
+    onMounted(() => {});
 
-    const onSubmit = async () => {
-      let isLogin = false;
-      let tempData = [];
+    const onLogin = async () => {
+      const email = state.form.email;
+      const password = state.form.password;
+      const level = state.form.level;
 
-      const onLogin = await api.doFetch("userAuth", {
-        username: state.username,
-        password: state.password,
-      });
-
-      console.log(onLogin);
-      //   state.result = onLogin["response"]
+      const login = await axios
+        .post("http://localhost:8000/api/login", {
+          email,
+          password,
+          level,
+        })
+        .then((response) => {
+          let responseAPI = response.data;
+          console.log("response : ", responseAPI);
+          
+          if (responseAPI["success"] == false) {
+            Notify.create({
+              message: responseAPI["message"],
+              icon: "error",
+              color: "red",
+            });
+          } else {
+            console.log("sukses");
+            
+            root.$router.push({ path: "/pengaduan" });
+          }
+        })
+        .catch((error) => {
+          // state.validation = error.response.data;
+          console.log(error);
+        });
     };
 
-    // Notify.create({
-    //   type: "negative",
-    //   message: "Wrong username or password",
-    // });
-
     const onReset = () => {
-      state.username = null;
-      state.password = null;
+      state.form.username = null;
+      state.form.password = null;
     };
 
     return {
       ...toRefs(state),
-      onSubmit,
+      onLogin,
       onReset,
     };
   },
