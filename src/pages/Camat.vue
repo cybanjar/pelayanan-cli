@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-      <div class="text-h2">Kontak</div>
+      <div class="text-h2">Page Camat</div>
   </q-page>
 </template>
 
@@ -21,7 +21,7 @@ export default defineComponent({
     });
 
     onMounted(() => {
-        console.log('mounted!');
+        console.log('page camat');
     });
 
     return {

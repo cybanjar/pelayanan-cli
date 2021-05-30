@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-      <div class="text-h2">Kontak</div>
+      <div class="text-h2">Page Admin</div>
   </q-page>
 </template>
 
@@ -16,12 +16,15 @@ export default defineComponent({
   props: {
   },
 
-  setup(props, { root: { $router } }) {
+  setup(props, { root }) {
     const state = reactive({
     });
 
     onMounted(() => {
-        console.log('mounted!');
+        console.log('page camat');
+        if (!sessionStorage.getItem('auth')) {
+        root.$router.push({path: '/'})
+      }
     });
 
     return {

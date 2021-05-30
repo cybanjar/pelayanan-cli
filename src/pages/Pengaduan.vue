@@ -16,14 +16,17 @@ import { Notify } from "quasar";
 export default defineComponent({
   props: {},
 
-  setup(props, { root: { $router } }) {
+  setup(props, { root }) {
     const state = reactive({});
 
     onMounted(() => {
-      Notify.create({
-        message: "Welcome ",
-        color: "info",
-      });
+      if (!sessionStorage.getItem('auth')) {
+        root.$router.push({path: '/login'})
+      }
+      // Notify.create({
+      //   message: "Welcome ",
+      //   color: "info",
+      // });
     });
 
     return {

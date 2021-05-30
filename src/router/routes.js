@@ -16,6 +16,12 @@ const routes = [
       { 
         path: '/kontak', component: () => import('pages/Kontak.vue') 
       },
+      { 
+        path: '/camat', component: () => import('pages/Camat.vue') 
+      },
+      { 
+        path: '/admin', component: () => import('pages/Admin.vue') 
+      },
     ]
   },
 

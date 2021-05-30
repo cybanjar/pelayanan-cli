@@ -7,26 +7,27 @@
       <div class="q-ma-md">
         <q-card-section>
           <div class="text-h5 font-bold">
-            <q-icon name="lock" color="primary" class="q-mr-sm" />
+            <!-- <q-icon name="lock" color="primary" class="q-mr-sm" /> -->
             Login
           </div>
+          <div class="text-gray-500">Welcome back, please login</div>
         </q-card-section>
 
         <q-card-section>
           <q-form @submit.prevent="onLogin" class="q-gutter-md">
             <q-input outlined v-model="form.email" label="Email *" type="email">
               <template v-slot:append>
-                <q-icon name="person" class="cursor-pointer" />
+                <q-icon name="email" class="cursor-pointer" />
               </template>
             </q-input>
 
-            <q-select
+            <!-- <q-select
               color="primary"
               outlined
               v-model="form.level"
               :options="form.optionsLevel"
               label="Level"
-            />
+            /> -->
 
             <q-input
               outlined
@@ -51,7 +52,10 @@
             <div class="float-right text-right q-mb-md">
               <div class="q-mb-sm">
                 Not have account?
-                <a href="/register" class="text-bold"> Register</a>
+                <!-- <a href="/register" class="text-bold underline"> Register</a> <br> -->
+                <router-link class="text-bold underline" to="/register">Register</router-link> <br>
+                Or back to
+                <a href="/" class="text-bold underline"> Home</a>
               </div>
               <q-btn
                 label="Reset"
@@ -104,23 +108,23 @@ export default defineComponent({
       validation: false,
     });
 
-    onMounted(() => {});
+    onMounted(() => {
+
+    });
 
     const onLogin = async () => {
       const email = state.form.email;
       const password = state.form.password;
-      const level = state.form.level;
 
       const login = await axios
         .post("http://localhost:8000/api/login", {
           email,
           password,
-          level,
         })
         .then((response) => {
           let responseAPI = response.data;
           console.log("response : ", responseAPI);
-          
+
           if (responseAPI["success"] == false) {
             Notify.create({
               message: responseAPI["message"],
@@ -128,9 +132,18 @@ export default defineComponent({
               color: "red",
             });
           } else {
-            console.log("sukses");
-            
-            root.$router.push({ path: "/pengaduan" });
+            sessionStorage.setItem('auth', responseAPI["access_token"]);
+
+            sessionStorage.setItem('username', JSON.stringify(responseAPI["user"]) );
+
+            const infoUser = responseAPI["user"]["level"];
+            if (infoUser == "admin") {
+              root.$router.push({ path: "/admin" });
+            } else if (infoUser == "camat") {
+              root.$router.push({ path: "/camat" });
+            } else {
+              root.$router.push({ path: "/pengaduan" });
+            }
           }
         })
         .catch((error) => {
@@ -158,9 +171,5 @@ export default defineComponent({
   width: 450px;
 }
 
-.bg-hero {
-  background-image: url("../assets/header-0.jpg");
-  background-repeat: no-repeat;
-  //   object-fit: cover;
-}
+
 </style>
