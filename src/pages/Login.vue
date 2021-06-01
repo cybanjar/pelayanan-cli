@@ -15,7 +15,16 @@
 
         <q-card-section>
           <q-form @submit.prevent="onLogin" class="q-gutter-md">
-            <q-input outlined v-model="form.email" label="Email *" type="email">
+            <q-input
+              outlined
+              v-model="form.email"
+              label="Email *"
+              type="email"
+              lazy-rules
+              :rules="[
+                (val) => (val && val.length > 0) || 'Please type something',
+              ]"
+            >
               <template v-slot:append>
                 <q-icon name="email" class="cursor-pointer" />
               </template>
@@ -52,10 +61,14 @@
             <div class="float-right text-right q-mb-md">
               <div class="q-mb-sm">
                 Not have account?
-                <!-- <a href="/register" class="text-bold underline"> Register</a> <br> -->
-                <router-link class="text-bold underline" to="/register">Register</router-link> <br>
+                <router-link class="text-bold underline" to="/register"
+                  >Register</router-link
+                >
+                <br />
                 Or back to
-                <a href="/" class="text-bold underline"> Home</a>
+                <router-link class="text-bold underline" to="/"
+                  >Home</router-link
+                >
               </div>
               <q-btn
                 label="Reset"
@@ -85,7 +98,6 @@ import {
   defineComponent,
   reactive,
   toRefs,
-  ref,
   onMounted,
 } from "@vue/composition-api";
 import api from "../api/userAuth.api";
@@ -108,9 +120,7 @@ export default defineComponent({
       validation: false,
     });
 
-    onMounted(() => {
-
-    });
+    onMounted(() => {});
 
     const onLogin = async () => {
       const email = state.form.email;
@@ -132,9 +142,18 @@ export default defineComponent({
               color: "red",
             });
           } else {
-            sessionStorage.setItem('auth', responseAPI["access_token"]);
+            Notify.create({
+              message: "Welcome back, " + responseAPI["user"]["name"],
+              icon: "check_circle",
+              color: "green",
+            });
 
-            sessionStorage.setItem('username', JSON.stringify(responseAPI["user"]) );
+            sessionStorage.setItem("auth", responseAPI["access_token"]);
+
+            sessionStorage.setItem(
+              "users",
+              JSON.stringify(responseAPI["user"])
+            );
 
             const infoUser = responseAPI["user"]["level"];
             if (infoUser == "admin") {
@@ -153,7 +172,7 @@ export default defineComponent({
     };
 
     const onReset = () => {
-      state.form.username = null;
+      state.form.email = null;
       state.form.password = null;
     };
 
@@ -170,6 +189,4 @@ export default defineComponent({
 .style-login {
   width: 450px;
 }
-
-
 </style>

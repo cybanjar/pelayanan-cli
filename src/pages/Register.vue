@@ -27,14 +27,14 @@
               </template>
             </q-input>
 
-            <q-select
+            <!-- <q-select
               color="primary"
               outlined
               v-model="form.level"
               :options="form.optionsLevel"
               label="Level"
               required
-            />
+            /> -->
 
             <q-input
               outlined
@@ -43,8 +43,9 @@
               :type="isPwd ? 'password' : 'text'"
               label="Password *"
               lazy-rules
+              counter 
               :rules="[
-                (val) => (val && val.length > 0) || 'Please type something',
+                (val) => (val && val.length > 5 && val.length <= 20) || 'The password must be at least 6 characters.',
               ]"
             >
               <template v-slot:append>
@@ -122,16 +123,18 @@ export default defineComponent({
       const name = state.form.name;
       const email = state.form.email;
       const password = state.form.password;
-      const level = state.form.level;
+      // const level = state.form.level;
 
       const register = await axios
         .post("http://localhost:8000/api/register", {
           name,
           email,
           password,
-          level,
+          // level,
         })
         .then((response) => {
+          console.log(response);
+
           let responseAPI = response.data;
           console.log("response : ", responseAPI);
 
@@ -142,8 +145,11 @@ export default defineComponent({
               color: "red",
             });
           } else {
-            console.log("sukses");
-
+            Notify.create({
+              message: responseAPI["message"],
+              icon: "check_circle",
+              color: "green",
+            });
             root.$router.push({ path: "/login" });
           }
         })
@@ -154,7 +160,8 @@ export default defineComponent({
     };
 
     const onReset = () => {
-      state.form.username = null;
+      state.form.name = null;
+      state.form.email = null;
       state.form.password = null;
     };
 

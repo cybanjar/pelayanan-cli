@@ -22,6 +22,9 @@ const routes = [
       { 
         path: '/admin', component: () => import('pages/Admin.vue') 
       },
+      { 
+        path: '/account-setting', name: 'AccountSettingPage', component: () => import('pages/AccountSetting.vue') 
+      },
     ]
   },
 

@@ -1,12 +1,17 @@
 export default {
     state() {
         return {
-            user: null,
-            isLoggedIn: false,
+            user: {},
+            isAuth: false,
+            credential: '',
+            username: ''
         }
     },
     mutations: {
-
+        
+        setUsername(state, user) {
+            state.user = user
+        },
     },
     getters: {
 
