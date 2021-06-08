@@ -24,6 +24,18 @@
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </q-card-section>
+
+          <ul v-for="(item, index) in dataPengaduan" :key="index">
+            <li>{{ item['kategoriPengaduan'] }}
+                <q-img
+                  :src="`http://localhost:8000/storage/${item['gambar']}`"
+                  :ratio="16/9"
+                />
+            </li>
+          </ul>
+
+
+          
         </q-card>
       </div>
       <div class="col-md-6 col-xs-12"></div>
@@ -37,15 +49,16 @@ import {
   reactive,
   toRefs,
   onMounted,
-  onBeforeMount
+  onBeforeMount,
 } from "@vue/composition-api";
-
+import axios from 'axios';
 export default defineComponent({
   props: {},
 
   setup(props, { root }) {
     const state = reactive({
       dataPrepare: [],
+      dataPengaduan: [],
     });
 
     onBeforeMount(() => {
@@ -54,11 +67,15 @@ export default defineComponent({
       }
 
       if (state.dataPrepare === null) {
-        console.log('hehe');
+        console.log("hehe");
       }
 
       const myprofile = JSON.parse(sessionStorage.getItem("users"));
       state.dataPrepare = myprofile;
+    });
+
+    onMounted(() => {
+      
     });
 
     return {
