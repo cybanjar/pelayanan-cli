@@ -62,7 +62,7 @@ export default defineComponent({
     });
 
     onBeforeMount(() => {
-      if (!sessionStorage.getItem("auth")) {
+      if (!sessionStorage.getItem("token")) {
         root.$router.push({ path: "/login" });
       }
 

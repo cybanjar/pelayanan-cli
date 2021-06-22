@@ -1,6 +1,11 @@
 <template>
-  <q-page class="flex flex-center">
-    <div class="text-h2">Home</div>
+  <q-page class="flex column flex-center">
+    <q-img
+      src="../assets/logo_brebes.png"
+      class="img_logo q-mb-md"
+    />
+    <div class="text-h4 font-bold text-center uppercase">Kecamatan Wanasari</div>
+    <div class="text-h6 text-grey">Kabupaten Brebes</div>
   </q-page>
 </template>
 
@@ -31,4 +36,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.img_logo {
+  width: 150px;
+  height: auto;
+}
 </style>

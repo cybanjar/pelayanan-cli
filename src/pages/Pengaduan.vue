@@ -3,14 +3,13 @@
     <div class="text-h5 q-mx-lg">Form Pengaduan</div>
     <div class="row q-ma-lg">
       <div class="col-md-4 col-xs-12">
-        <q-form @submit="onSubmit" class="q-gutter-md">
+        <!-- enctype="multipart/form-data" -->
+        <q-form @submit="onSubmit" class="q-gutter-md" enctype="multipart/form-data">
           <q-select
-            transition-show="jump-up"
-            transition-hide="jump-down"
             outlined
-            v-model="jenisPengaduan"
+            v-model="kategoriPengaduan"
             clearable
-            :options="optionsJenisPengaduan"
+            :options="optionsKategoriPengaduan"
             behavior="menu"
             label="Jenis Pengaduan *"
             required
@@ -32,27 +31,13 @@
             required
           />
 
-          <!-- <q-file
-            v-model="files"
-            label="Pick files/ picture"
-            counter
-            outlined
-            :counter-label="counterLabelFn"
-            max-files="3"
-            multiple
-            class="q-pr-md"
-            max-total-size="4096"
-          >
+          <!-- <q-file outlined class="q-pr-md" label="Upload picture" v-model="files">
             <template v-slot:prepend>
               <q-icon name="attach_file" />
             </template>
           </q-file> -->
-
-          <q-file outlined class="q-pr-md" label="Upload picture" v-model="files">
-            <template v-slot:prepend>
-              <q-icon name="attach_file" />
-            </template>
-          </q-file>
+          <img style="width: 100px" :src="imgPreview" v-if="imgPreview">
+          <input type="file" id="file" ref="file" @change="onChange" name="file" required> <br>
 
           <q-btn
             label="Reset"
@@ -81,27 +66,36 @@ import {
   defineComponent,
   reactive,
   toRefs,
+  ref,
   onMounted,
 } from "@vue/composition-api";
 import axios from "axios";
 import { Notify } from "quasar";
+import api from "../api/api.config.js";
 
 export default defineComponent({
   props: {},
 
   setup(props, { root }) {
-    const auth = sessionStorage.getItem("auth");
+    const token = sessionStorage.getItem("token");
 
     const state = reactive({
-      jenisPengaduan: null,
-      optionsJenisPengaduan: ["ktp", "sosial", "jalan", "pelayanan", "keamanan", "lainnya"],
+      kategoriPengaduan: null,
+      optionsKategoriPengaduan: [
+        "ktp",
+        "sosial",
+        "jalan",
+        "pelayanan",
+        "keamanan",
+        "lainnya",
+      ],
       deskripsi: "",
-      files: null,
+      file: '',
+      imgPreview: "",
     });
 
     onMounted(() => {
-      console.log(auth);
-      if (!auth) {
+      if (!token) {
         root.$router.push({ path: "/login" });
       }
 
@@ -114,53 +108,59 @@ export default defineComponent({
           message: "No Access Denied!",
         });
       }
-
-      // get data user
-      
     });
 
-    const onSubmit = async () => {
-      // let header = axios.defaults.headers.common.Authorization = `Bearer ${auth}`;
-      const getAuth = axios.defaults.headers.common.Authorization = `Bearer ${auth}`;
-      let jenis = state.jenisPengaduan;
-      let deskripsi = state.deskripsi;
-      let gambar = state.files;
+    const onChange = (e) => {
+      // state.imgPreview = URL.createObjectURL(e.target.files[0]);
+      state.file = e.target.files[0];
+    }
 
-      console.log(
-        state.jenisPengaduan,
-        state.deskripsi,
-        state.files,
-        getAuth
-      );
+    const onSubmit = async (e) => {
+      e.preventDefault();
+      let existingObj = state;
 
-      const submit = await axios
-        .post("http://localhost:8000/api/pengaduan", {
-          getAuth,
-          jenis,
-          deskripsi,
-          gambar
-        })
+      const config = {
+        headers: {
+          'content-type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`
+        }
+      }
+
+      let data = new FormData();
+      data.append('gambar', state.file);
+      data.append('kategoriPengaduan', state.kategoriPengaduan);
+      data.append('deskripsi', state.deskripsi);
+
+      await axios
+        .post("http://localhost:8000/api/pengaduan", data, config)
         .then((response) => {
-          console.log("response : ", response);
-
+          existingObj.success = response.data.success;
+          // console.log("response sukses: ", response.data.message);
+          Notify.create({
+            type: 'positive',
+            message: response.data.message
+          })
+          root.$router.push({path: '/'})
         })
         .catch((error) => {
-          // state.validation = error.response.data;
-          console.log(error);
+          Notify.create({
+            type: 'negative',
+            message: error.response.data['errors']['gambar'][0]
+          })
+          existingObj.output = error;
         });
     };
 
     const onReset = () => {
-      state.jenisPengaduan = null;
+      state.kategoriPengaduan = null;
       state.deskripsi = null;
-      state.files = null;
     };
-
 
     return {
       ...toRefs(state),
       onSubmit,
       onReset,
+      onChange
     };
   },
 });

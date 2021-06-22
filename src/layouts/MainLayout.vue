@@ -160,7 +160,7 @@ export default defineComponent({
     });
 
     const removeAuth = () => {
-      sessionStorage.removeItem("auth");
+      sessionStorage.removeItem("token");
       sessionStorage.removeItem("users");
       root.$router.push({ path: "/" });
       window.location.reload();
@@ -172,7 +172,7 @@ export default defineComponent({
 
     onMounted(() => {
       const userStore = JSON.parse(sessionStorage.getItem("users"));
-      const userAuth = sessionStorage.getItem("auth");
+      const userAuth = sessionStorage.getItem("token");
 
       if (userAuth && userStore["level"] != "pengunjung") {
         state.isLogin = false;

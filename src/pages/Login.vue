@@ -123,13 +123,10 @@ export default defineComponent({
     onMounted(() => {});
 
     const onLogin = async () => {
-      const email = state.form.email;
-      const password = state.form.password;
-
       const login = await axios
         .post("http://localhost:8000/api/login", {
-          email,
-          password,
+          email: state.form.email,
+          password : state.form.password
         })
         .then((response) => {
           let responseAPI = response.data;
@@ -148,7 +145,7 @@ export default defineComponent({
               color: "green",
             });
 
-            sessionStorage.setItem("auth", responseAPI["access_token"]);
+            sessionStorage.setItem("token", responseAPI["access_token"]);
 
             sessionStorage.setItem(
               "users",
