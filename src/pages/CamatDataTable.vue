@@ -1,17 +1,23 @@
 <template>
-  <q-page class="q-mx-md" style="min-height: 80vh">
+  <q-page class="q-mx-md">
     <div class="text-h5 q-my-md">
       Report
       <q-chip color="primary" text-color="white" label="Page Camat" />
     </div>
 
-    <div class="row scroll" style="max-height: 70vh">
-      <div v-for="(item, index) in dataPengaduan" :key="index" class="col-md-3 col-sm-6 col-xs-12 q-pa-sm">
-        <!-- <q-card flat bordered>
+    <!-- <div class="row">
+      <div class="col-md-4 col-sm-6 col-xs-12">
+        <q-card
+          v-for="(item, index) in dataPengaduan"
+          :key="index"
+          flat
+          bordered
+        >
           <q-img
             :src="`http://localhost:8000/storage/${item['gambar']}`"
             :ratio="16 / 9"
           />
+
           <q-card-section>
             <div class="text-h6">{{ item["kategoriPengaduan"] }}</div>
             <div class="text-subtitle2">{{ item['kategoriPengaduan'] }}</div>
@@ -20,51 +26,26 @@
           <q-card-section class="q-pt-none">
             {{ item["deskripsi"] }}
           </q-card-section>
-        </q-card> -->
-
-        <q-card flat bordered class="bg-grey-1">
-          <q-img
-            :src="`http://localhost:8000/storage/${item['gambar']}`"
-            :ratio="16 / 9"
-          />
-          <q-card-section>
-            <div class="row items-center no-wrap">
-              <div class="col">
-                <!-- <div class="text-h6 text-capitalize">{{item["kategoriPengaduan"]}}</div> -->
-                <q-chip color="primary" text-color="white">
-                  {{item["kategoriPengaduan"]}}
-                </q-chip>
-                <div class="text-subtitle2">ID pengaduan {{ item["id"] }}</div>
-                <div class="text-grey">User {{ item["user_id"] }}</div>
-              </div>
-
-              <div class="col-auto">
-                <q-btn class="text-right" color="grey-7" round flat icon="more_vert">
-                  <q-menu>
-                    <q-list>
-                      <q-item clickable>
-                        <q-item-section>Edit</q-item-section>
-                      </q-item>
-                      <q-item clickable>
-                        <q-item-section>Delete</q-item-section>
-                      </q-item>
-                    </q-list>
-                  </q-menu>
-                </q-btn>
-              </div>
-            </div>
-          </q-card-section>
-
-          <q-card-section>
-            {{ item["deskripsi"].substring(0, 20) }} 
-            <router-link to="/detail-report"> <span class="text-underline">read more</span></router-link>
-          </q-card-section>
-
         </q-card>
       </div>
-    </div>
+    </div> -->
 
-    
+    <q-table
+      class="my-sticky-header-table"
+      title="Treats"
+      :data="build"
+      :columns="tableHeaders"
+      row-key="name"
+      flat
+      bordered
+    >
+      <!-- <template v-slot:body-cell-name="props">
+        <q-td :props="props">
+          <q-badge :label="props.value"></q-badge>
+          <img v-for="(gambar, key) in gambar" :src="gambar.id" :alt="gambar.alt" :key="key" />
+        </q-td>
+      </template> -->
+    </q-table>
   </q-page>
 </template>
 
@@ -99,7 +80,7 @@ export default defineComponent({
       if (!auth) {
         root.$router.push({ path: "/" });
         Notify.create({
-          type: "negative",
+          type: "Please login!",
           message: "No Access Denied!",
         });
       }
@@ -127,7 +108,6 @@ export default defineComponent({
           state.searches.isFetching = true;
           
           const data = response["data"]["data"]["data"];
-          state.dataPengaduan = response["data"]["data"]["data"];
           // state.dataPengaduan = response["data"]["data"]["data"];
           console.log('data pengaduan',response["data"]["data"]["data"]);
 
@@ -183,8 +163,4 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.text-underline {
-  text-decoration: underline;
-  color: $primary;
-}
 </style>

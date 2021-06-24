@@ -25,6 +25,9 @@ const routes = [
       { 
         path: '/account-setting', name: 'AccountSettingPage', component: () => import('pages/AccountSetting.vue') 
       },
+      { 
+        path: '/detail-report', name: 'DetailReportPage', component: () => import('pages/DetailReport.vue') 
+      },
     ]
   },
 

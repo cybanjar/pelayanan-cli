@@ -25,6 +25,20 @@
             flat
             label="Pengaduan"
           />
+          <q-btn
+            v-show="isCamat"
+            to="/camat"
+            stretch
+            flat
+            label="Report"
+          />
+          <q-btn
+            v-show="isAdmin"
+            to="/admin"
+            stretch
+            flat
+            label="Report"
+          />
           <q-btn to="/kontak" stretch flat label="Kontak" />
         </q-toolbar-title>
 
@@ -157,6 +171,8 @@ export default defineComponent({
     const state = reactive({
       isLogin: false,
       isPengunjung: true,
+      isCamat: false,
+      isAdmin: false,
     });
 
     const removeAuth = () => {
@@ -173,12 +189,23 @@ export default defineComponent({
     onMounted(() => {
       const userStore = JSON.parse(sessionStorage.getItem("users"));
       const userAuth = sessionStorage.getItem("token");
+      console.log('token user', userStore, userAuth);
 
-      if (userAuth && userStore["level"] != "pengunjung") {
-        state.isLogin = false;
-        state.isPengunjung = false;
-      } else if (!userAuth) {
-        state.isLogin = true;
+      // if (userAuth && userStore["level"] != "pengunjung") {
+      //   state.isLogin = false;
+      //   state.isPengunjung = false;
+      // } else if (!userAuth) {
+      //   state.isLogin = true;
+      // }
+
+      if (userAuth && userStore['level'] === 'pengunjung') {
+        state.isPengunjung = true;
+      } else if(userAuth && userStore['level'] === 'camat'){
+        state.isCamat = true;
+      } else if(userAuth && userStore['level'] === 'admin'){
+        state.isAdmin = true;
+      } else if(!userAuth) {
+        state.isLogin = true
       }
     });
 

@@ -96,6 +96,10 @@ export default defineComponent({
 
     onMounted(() => {
       if (!token) {
+        Notify.create({
+          type: 'negative',
+          message: "Plase login!",
+        });
         root.$router.push({ path: "/login" });
       }
 

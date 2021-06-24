@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-    <div class="text-h2">Page Admin</div>
+      <div class="text-h2">Detail Report</div>
   </q-page>
 </template>
 
@@ -13,16 +13,15 @@ import {
 } from "@vue/composition-api";
 
 export default defineComponent({
-  props: {},
+  props: {
+  },
 
-  setup(props, { root }) {
-    const state = reactive({});
+  setup(props, { root: { $router } }) {
+    const state = reactive({
+    });
 
     onMounted(() => {
-      if (!sessionStorage.getItem("token")) {
-        root.$router.push({ path: "/" });
-      }
-
+        console.log('mounted!');
     });
 
     return {

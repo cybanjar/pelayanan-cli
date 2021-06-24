@@ -118,6 +118,7 @@ export default defineComponent({
       result: "",
       count: 1,
       validation: false,
+      isCamat: false
     });
 
     onMounted(() => {});
