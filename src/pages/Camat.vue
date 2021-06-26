@@ -107,7 +107,7 @@ export default defineComponent({
     });
 
     const getData = async () => {
-      // axios.defaults.headers.common.Authorization = `Bearer ${auth}`;
+      axios.defaults.headers.common.Authorization = `Bearer ${auth}`;
 
       await axios
         .get("http://localhost:8000/api/pengaduan/?page="+page, {
