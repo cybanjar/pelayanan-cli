@@ -7,21 +7,6 @@
 
     <div class="row scroll" style="max-height: 70vh">
       <div v-for="(item, index) in dataPengaduan" :key="index" class="col-md-3 col-sm-6 col-xs-12 q-pa-sm">
-        <!-- <q-card flat bordered>
-          <q-img
-            :src="`http://localhost:8000/storage/${item['gambar']}`"
-            :ratio="16 / 9"
-          />
-          <q-card-section>
-            <div class="text-h6">{{ item["kategoriPengaduan"] }}</div>
-            <div class="text-subtitle2">{{ item['kategoriPengaduan'] }}</div>
-          </q-card-section>
-
-          <q-card-section class="q-pt-none">
-            {{ item["deskripsi"] }}
-          </q-card-section>
-        </q-card> -->
-
         <q-card flat bordered class="bg-grey-1">
           <q-img
             :src="`http://localhost:8000/storage/${item['gambar']}`"
@@ -33,9 +18,10 @@
                 <!-- <div class="text-h6 text-capitalize">{{item["kategoriPengaduan"]}}</div> -->
                 <q-chip color="primary" text-color="white">
                   {{item["kategoriPengaduan"]}}
-                </q-chip>
-                <div class="text-subtitle2">ID pengaduan {{ item["id"] }}</div>
-                <div class="text-grey">User {{ item["user_id"] }}</div>
+                </q-chip> <br>
+                <span class="text-subtitle2 text-gray-400">ID pengaduan </span> <span class="text-bold">{{ item["id"] }}</span> <br>
+                <span class="text-subtitle2 text-gray-400">ID user </span> <span class="text-bold">{{ item["user_id"] }}</span> <br>
+                <span class="text-subtitle2 text-gray-400">Created {{ item["created_at"].substring(0,10) }}</span>
               </div>
 
               <div class="col-auto">
@@ -64,6 +50,9 @@
       </div>
     </div>
 
+    <div class="row justify-center">
+      <q-btn @click="loadMore" class="q-mt-md text-capitalize" unelevated icon="cached" rounded label="Load More" />
+    </div>
     
   </q-page>
 </template>
@@ -82,6 +71,7 @@ export default defineComponent({
 
   setup(props, { root }) {
     let charts = [];
+    let page = 1;
 
     const auth = sessionStorage.getItem("token");
     const userStore = JSON.parse(sessionStorage.getItem("users"));
@@ -117,30 +107,45 @@ export default defineComponent({
     });
 
     const getData = async () => {
-      
-      axios.defaults.headers.common.Authorization = `Bearer ${auth}`;
+      // axios.defaults.headers.common.Authorization = `Bearer ${auth}`;
+
       await axios
-        .get("http://localhost:8000/api/pengaduan/", {
+        .get("http://localhost:8000/api/pengaduan/?page="+page, {
           // getPengaduan
         })
         .then(function (response) {
-          state.searches.isFetching = true;
-          
           const data = response["data"]["data"]["data"];
-          state.dataPengaduan = response["data"]["data"]["data"];
-          // state.dataPengaduan = response["data"]["data"]["data"];
-          console.log('data pengaduan',response["data"]["data"]["data"]);
-
-          charts = data || [];
-          state.build = charts;
-          state.searches.isFetching = false;
+          state.dataPengaduan = data;
+          console.log('data pengaduan',data);
+          // charts = data || [];
+          // state.build = charts;
+          // state.searches.isFetching = false;
         })
         .catch(function (error) {
-          // handle error
           console.log(error);
         });
-        
     };
+
+    const loadMore = async () => {
+      await axios
+        .get("http://localhost:8000/api/pengaduan/?page="+ page++, {
+        })
+        .then(function (response) {
+          const data = response["data"]["data"]["data"]
+          state.dataPengaduan = data;
+          console.log('data pengaduan', data);
+          if (data.length == 0) {
+            console.log('gak ada data');
+            Notify.create({
+              type: 'negative',
+              message: 'No data'
+            })
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
 
     const tableHeaders = [
       {
@@ -177,6 +182,7 @@ export default defineComponent({
       ...toRefs(state),
       getData,
       tableHeaders,
+      loadMore
     };
   },
 });
