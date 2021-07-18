@@ -189,7 +189,7 @@ export default defineComponent({
     onMounted(() => {
       const userStore = JSON.parse(sessionStorage.getItem("users"));
       const userAuth = sessionStorage.getItem("token");
-      console.log('token user', userStore, userAuth);
+      // console.log('token user', userStore, userAuth);
 
       // if (userAuth && userStore["level"] != "pengunjung") {
       //   state.isLogin = false;

@@ -96,7 +96,6 @@ import {
   ref,
   onMounted,
 } from "@vue/composition-api";
-import api from "../api/userAuth.api";
 import axios from "axios";
 import { Notify } from "quasar";
 
@@ -155,7 +154,11 @@ export default defineComponent({
         })
         .catch((error) => {
           // state.validation = error.response.data;
-          console.log(error);
+          console.log(error.response.data.error.email[0]);
+          Notify.create({
+            type: 'negative',
+            message: error.response.data.error.email[0]
+          })
         });
     };
 

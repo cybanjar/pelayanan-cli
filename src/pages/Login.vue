@@ -100,7 +100,6 @@ import {
   toRefs,
   onMounted,
 } from "@vue/composition-api";
-import api from "../api/userAuth.api";
 import axios from "axios";
 import { Notify } from "quasar";
 
@@ -131,7 +130,7 @@ export default defineComponent({
         })
         .then((response) => {
           let responseAPI = response.data;
-          console.log("response : ", responseAPI);
+          // console.log("response : ", responseAPI);
 
           if (responseAPI["success"] == false) {
             Notify.create({
