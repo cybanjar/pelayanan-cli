@@ -231,7 +231,7 @@ export default defineComponent({
       {
         id: 4,
         name: "Wajib attact file",
-        email: "Sebagai tanda bukti anda bisa menyisipkan foto, file, screenshot. File yang di support berupa PDF, JPG, PNG",
+        email: "Sebagai tanda bukti anda bisa menyisipkan foto, file, screenshot. File yang di support berupa jpeg, png, jpg, gif, svg, pdf, maksimal size 2048kb",
         letter: "4",
         icon: "attach_file"
       },
