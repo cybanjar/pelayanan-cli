@@ -42,6 +42,14 @@ const routes = [
     component: () => import('pages/Register.vue')
   },
   {
+    path: '/forgot-password',
+    component: () => import('src/pages/ForgotPassword.vue')
+  },
+  {
+    path: '/reset-password',
+    component: () => import('src/pages/ResetPassword.vue')
+  },
+  {
     path: '*',
     component: () => import('pages/Error404.vue')
   }

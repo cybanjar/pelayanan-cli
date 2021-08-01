@@ -31,10 +31,10 @@
       </q-card>
     </div>
 
-    <div class="q-pa-md">
+    <div class="w-full q-pa-sm">
       <q-table
         class="my-sticky-header-table"
-        title="Data Pengaduan Masyarakat"
+        title="Pengaduan Masyarakat"
         :data="build"
         :columns="tableHeaders"
         :filter="filter"
@@ -44,6 +44,17 @@
         bordered
       >
         <template v-slot:top-right>
+          <q-btn
+            flat
+            round
+            class="q-mr-md"
+            color="primary"
+            icon="archive"
+            no-caps
+            @click="exportTable"
+          >
+            <q-tooltip>Download CSV</q-tooltip>
+          </q-btn>
           <q-input dense debounce="300" v-model="filter" placeholder="Search">
             <template v-slot:append>
               <q-icon color="primary" name="search" />
@@ -63,7 +74,7 @@
               {{ props.row.kategoriPengaduan }}
             </q-td>
             <q-td key="gambar" :props="props">
-              <q-img class="w-20" :src="`http://localhost:8000/storage/${props.row.gambar}`" />
+              <q-img class="w-20 rounded-md" :src="`http://localhost:8000/storage/${props.row.gambar}`" />
             </q-td>
             <q-td key="deskripsi" :props="props">
               {{ props.row.deskripsi }}
@@ -91,6 +102,7 @@ import {
 } from "@vue/composition-api";
 import api from "../api/fetch.api.js";
 import UA from '../utils/userAccess.js';
+import { exportFile } from 'quasar';
 
 export default defineComponent({
   
@@ -144,6 +156,51 @@ export default defineComponent({
       });
       state.camat = dataCamat.length;
     };
+
+    const exportTable = () => {
+      const content = [ tableHeaders.map(col => wrapCsvValue(col.label)) ].concat(
+        charts.map(row => tableHeaders.map(col => wrapCsvValue(
+          typeof col.field === 'function'
+            ? col.field(row)
+            : row[col.field === void 0 ? col.name : col.field],
+          col.format
+        )).join(','))
+      ).join('\r\n')
+
+      const status = exportFile(
+        'table-export.csv',
+        content,
+        'text/csv'
+      )
+
+      if (status !== true) {
+        this.$q.notify({
+          message: 'Browser denied file download...',
+          color: 'negative',
+          icon: 'warning'
+        })
+      }
+    }
+
+    function wrapCsvValue (val, formatFn) {
+      let formatted = formatFn !== void 0
+        ? formatFn(val)
+        : val
+
+      formatted = formatted === void 0 || formatted === null
+        ? ''
+        : String(formatted)
+
+      formatted = formatted.split('"').join('""')
+      /**
+       * Excel accepts \n and \r in strings, but some other CSV parsers do not
+       * Uncomment the next two lines to escape new lines
+       */
+      // .split('\n').join('\\n')
+      // .split('\r').join('\\r')
+
+      return `"${formatted}"`
+    }
 
     const tableHeaders = [
       {
@@ -201,7 +258,8 @@ export default defineComponent({
       ...toRefs(state),
       fetchDataUser,
       getDataPengaduan,
-      tableHeaders
+      tableHeaders,
+      exportTable
     };
   },
 });

@@ -52,4 +52,45 @@ export default {
             return null;
         }
     },
+
+    doPost: async (url, body) => {
+        let reqBody = null;
+        // const token = sessionStorage.getItem("token");
+        // axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+        
+        // Request data
+        if (!body) {
+            reqBody = "";
+        } else {
+            reqBody = body;
+        }
+
+        const requestURL = baseURL + url;
+
+        const httpOptions = {
+            json: {
+                request: reqBody
+            },
+            timeout: 20000
+        };
+
+        try {
+            const data = await axios
+            .post(requestURL, httpOptions)
+            .then((response) => {
+                console.log("response : ", response);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+
+            const dataResponse = data;
+
+            return dataResponse;
+        } catch (error) {
+            error.message
+
+            return null;
+        }
+    },
 };

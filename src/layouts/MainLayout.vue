@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header class="bg-white q-pa-sm q-gutter-y-sm" unelevated>
-      <q-toolbar class="text-primary">
+    <q-header class="bg-primary q-pa-sm q-gutter-y-sm" unelevated>
+      <q-toolbar class="text-white">
         <q-btn
           flat
           dense
@@ -46,15 +46,16 @@
           <q-btn
             to="/register"
             class="q-mx-sm"
-            outline
+            flat
             rounded
             label="Register"
           />
           <q-btn
             to="/login"
             class="shadow-xl px-2"
-            color="primary"
+            color="white"
             rounded
+            text-color="primary"
             unelevated
             label="Login"
           />
@@ -64,7 +65,7 @@
             color="primary"
             rounded
             unelevated
-            class="shadow-xl"
+            class=""
             icon="account_circle"
           >
             <q-list>
@@ -84,6 +85,16 @@
         </div>
       </q-toolbar>
     </q-header>
+
+    <q-footer unelevated>
+      <q-toolbar class="bg-primary">
+        <q-toolbar-title>
+          <div class="text-grey-50 text-center text-overline">
+            Copyright © 2021 | Wanasari
+          </div>
+        </q-toolbar-title>
+      </q-toolbar>
+    </q-footer>
 
     <q-drawer
       v-model="leftDrawerOpen"

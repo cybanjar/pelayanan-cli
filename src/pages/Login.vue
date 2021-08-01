@@ -63,11 +63,11 @@
                 Not have account?
                 <router-link class="text-bold underline" to="/register"
                   >Register</router-link
-                >
+                > 
+                Or
                 <br />
-                Or back to
-                <router-link class="text-bold underline" to="/"
-                  >Home</router-link
+                <router-link class="text-bold underline" to="/forgot-password"
+                  >Lupa password</router-link
                 >
               </div>
               <q-btn

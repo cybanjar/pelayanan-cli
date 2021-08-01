@@ -117,6 +117,7 @@ import {
 } from "@vue/composition-api";
 import axios from "axios";
 import { Notify } from "quasar";
+import UA from '../utils/userAccess.js';
 import api from "../api/fetch.api.js";
 
 export default defineComponent({
@@ -149,14 +150,15 @@ export default defineComponent({
         root.$router.push({ path: "/login" });
       }
 
+      // UA.UA_PENGUNJUNG();
       const userStore = JSON.parse(sessionStorage.getItem("users"));
       if (userStore["level"] != "pengunjung") {
-        root.$router.push({ path: "/" });
-        Notify.create({
-          color: "red",
-          icon: "error",
-          message: "No Access Denied!",
-        });
+          root.$router.push({ path: "/" });
+          Notify.create({
+              color: "red",
+              icon: "error",
+              message: "No Access Denied!",
+          });
       }
     });
 
