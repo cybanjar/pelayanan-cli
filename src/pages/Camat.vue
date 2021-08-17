@@ -5,27 +5,42 @@
       <q-chip color="primary" text-color="white" label="Page Camat" />
     </div>
 
-    <div class="row scroll" style="max-height: 70vh">
-      <div v-for="(item, index) in dataPengaduan" :key="index" class="col-md-3 col-sm-6 col-xs-12 q-pa-sm">
+    <div class="row scroll" style="max-height: 65vh">
+      <div
+        v-for="(item, index) in dataPengaduan"
+        :key="index"
+        class="col-md-3 col-sm-6 col-xs-12 q-pa-sm"
+      >
         <q-card flat bordered class="bg-grey-1">
           <q-img
-            :src="`http://localhost:8000/storage/${item['gambar']}`"
+            :src="`https://api.akusaralawoffice.com/api_pelayanan/storage/${item['gambar']}`"
             :ratio="16 / 9"
           />
           <q-card-section>
             <div class="row items-center no-wrap">
               <div class="col">
                 <!-- <div class="text-h6 text-capitalize">{{item["kategoriPengaduan"]}}</div> -->
-                <q-chip color="primary" text-color="white">
-                  {{item["kategoriPengaduan"]}}
-                </q-chip> <br>
-                <span class="text-subtitle2 text-gray-400">ID pengaduan </span> <span class="text-bold">{{ item["id"] }}</span> <br>
-                <span class="text-subtitle2 text-gray-400">ID user </span> <span class="text-bold">{{ item["user_id"] }}</span> <br>
-                <span class="text-subtitle2 text-gray-400">Created {{ item["created_at"].substring(0,10) }}</span>
+                <q-chip color="primary" class="text-capitalize" text-color="white">
+                  {{ item["kategoriPengaduan"] }}
+                </q-chip>
+                <br />
+                <span class="text-subtitle2 text-gray-400">ID pengaduan </span>
+                <span class="text-bold">{{ item["id"] }}</span> <br />
+                <span class="text-subtitle2 text-gray-400">ID user </span>
+                <span class="text-bold">{{ item["user_id"] }}</span> <br />
+                <span class="text-subtitle2 text-gray-400"
+                  >Created {{ item["created_at"].substring(0, 10) }}</span
+                >
               </div>
 
               <div class="col-auto">
-                <q-btn class="text-right" color="grey-7" round flat icon="more_vert">
+                <q-btn
+                  class="text-right"
+                  color="grey-7"
+                  round
+                  flat
+                  icon="more_vert"
+                >
                   <q-menu>
                     <q-list>
                       <q-item clickable>
@@ -42,18 +57,25 @@
           </q-card-section>
 
           <q-card-section>
-            {{ item["deskripsi"].substring(0, 20) }} 
-            <router-link to="/detail-report"> <span class="text-underline">read more</span></router-link>
+            {{ item["deskripsi"].substring(0, 20) }}
+            <router-link to="/detail-report">
+              <span class="text-underline">read more</span></router-link
+            >
           </q-card-section>
-
         </q-card>
       </div>
     </div>
 
     <div class="row justify-center">
-      <q-btn @click="loadMore" class="q-mt-md text-capitalize" unelevated icon="cached" rounded label="Load More" />
+      <q-btn
+        @click="loadMore"
+        class="q-mt-md text-capitalize"
+        unelevated
+        icon="cached"
+        rounded
+        label="Load More"
+      />
     </div>
-    
   </q-page>
 </template>
 
@@ -66,6 +88,7 @@ import {
 } from "@vue/composition-api";
 import axios from "axios";
 import { Notify } from "quasar";
+import api from "../api/fetch.api.js";
 export default defineComponent({
   props: {},
 
@@ -107,45 +130,38 @@ export default defineComponent({
     });
 
     const getData = async () => {
-      axios.defaults.headers.common.Authorization = `Bearer ${auth}`;
-
-      await axios
-        .get("http://localhost:8000/api/pengaduan/?page="+page, {
-          // getPengaduan
-        })
-        .then(function (response) {
-          const data = response["data"]["data"]["data"];
-          state.dataPengaduan = data;
-          console.log('data pengaduan',data);
-          // charts = data || [];
-          // state.build = charts;
-          // state.searches.isFetching = false;
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      const response = await api.doFetch("pengaduan");
+      state.searches.isFetching = true;
+      state.dataPengaduan = response["data"];
+      console.log(response.data);
     };
 
     const loadMore = async () => {
-      await axios
-        .get("http://localhost:8000/api/pengaduan/?page="+ page++, {
-        })
-        .then(function (response) {
-          const data = response["data"]["data"]["data"]
-          state.dataPengaduan = data;
-          console.log('data pengaduan', data);
-          if (data.length == 0) {
-            console.log('gak ada data');
-            Notify.create({
-              type: 'negative',
-              message: 'No data'
-            })
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
+      const response = await api.doFetch("pengaduan/?page=" + page++);
+      state.dataPengaduan = response["data"];
+      
+      // await axios
+      //   .get(
+      //     "https://api.akusaralawoffice.com/api_pelayanan/api/pengaduan/?page=" +
+      //       page++,
+      //     {}
+      //   )
+      //   .then(function (response) {
+      //     const data = response["data"]["data"]["data"];
+      //     state.dataPengaduan = data;
+      //     console.log("data pengaduan", data);
+      //     if (data.length == 0) {
+      //       console.log("gak ada data");
+      //       Notify.create({
+      //         type: "negative",
+      //         message: "No data",
+      //       });
+      //     }
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error);
+      //   });
+    };
 
     const tableHeaders = [
       {
@@ -182,7 +198,7 @@ export default defineComponent({
       ...toRefs(state),
       getData,
       tableHeaders,
-      loadMore
+      loadMore,
     };
   },
 });

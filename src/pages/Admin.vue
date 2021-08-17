@@ -74,7 +74,7 @@
               {{ props.row.kategoriPengaduan }}
             </q-td>
             <q-td key="gambar" :props="props">
-              <q-img class="w-20 rounded-md" :src="`http://localhost:8000/storage/${props.row.gambar}`" />
+              <q-img class="w-20 rounded-md" :src="`https://api.akusaralawoffice.com/api_pelayanan/storage/${props.row.gambar}`" />
             </q-td>
             <q-td key="deskripsi" :props="props">
               {{ props.row.deskripsi }}

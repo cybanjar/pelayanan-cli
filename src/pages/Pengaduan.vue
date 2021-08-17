@@ -184,7 +184,7 @@ export default defineComponent({
       data.append("deskripsi", state.deskripsi);
 
       await axios
-        .post("http://localhost:8000/api/pengaduan", data, config)
+        .post("https://api.akusaralawoffice.com/public/api/pengaduan", data, config)
         .then((response) => {
           existingObj.success = response.data.success;
           // console.log("response sukses: ", response.data.message);

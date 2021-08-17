@@ -102,6 +102,7 @@ import {
 } from "@vue/composition-api";
 import axios from "axios";
 import { Notify } from "quasar";
+import api from "../api/fetch.api.js";
 
 export default defineComponent({
   props: {},
@@ -120,17 +121,18 @@ export default defineComponent({
       isCamat: false
     });
 
-    onMounted(() => {});
+    onMounted(() => {
+    });
 
     const onLogin = async () => {
       const login = await axios
-        .post("http://localhost:8000/api/login", {
+        .post(api.baseUrl+'login', {
           email: state.form.email,
           password : state.form.password
         })
         .then((response) => {
           let responseAPI = response.data;
-          // console.log("response : ", responseAPI);
+          console.log("response : ", responseAPI);
 
           if (responseAPI["success"] == false) {
             Notify.create({
@@ -138,6 +140,15 @@ export default defineComponent({
               icon: "error",
               color: "red",
             });
+          } else if(responseAPI["user"]["email_verified_at"] === null) {
+            Notify.create({
+              message: 'Please verify email',
+              icon: "error",
+              color: "red",
+            });
+            sessionStorage.setItem("token", responseAPI["access_token"]);
+            console.log('token', responseAPI["access_token"])
+            root.$router.push({path: "/verify-email"})
           } else {
             Notify.create({
               message: "Welcome back, " + responseAPI["user"]["name"],

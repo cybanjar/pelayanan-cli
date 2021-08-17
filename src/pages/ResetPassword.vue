@@ -123,12 +123,11 @@ export default defineComponent({
     });
 
     onMounted(() => {
-        console.log(root.$route.query.token)
     });
 
     const onResetPassword = async () => {
         await axios
-        .post("http://localhost:8000/api/reset-password", {
+        .post((api.baseUrl+"reset-password", {
           token: root.$route.query.token,
           email: state.form.email,
           password: state.form.password,
@@ -144,7 +143,7 @@ export default defineComponent({
         })
         .catch((error) => {
           console.log(error);
-        });
+        }));
     };
 
     return {

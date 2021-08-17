@@ -50,6 +50,10 @@ const routes = [
     component: () => import('src/pages/ResetPassword.vue')
   },
   {
+    path: '/verify-email',
+    component: () => import('src/pages/VerifyEmail.vue')
+  },
+  {
     path: '*',
     component: () => import('pages/Error404.vue')
   }
