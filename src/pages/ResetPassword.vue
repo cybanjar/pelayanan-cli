@@ -38,7 +38,7 @@
               lazy-rules
               required
               :rules="[
-                (val) => (val && val.length > 5) || 'Min password 6',
+                (val) => (val && val.length > 6) || 'Min password 8',
               ]"
             >
               <template v-slot:append>
@@ -59,7 +59,7 @@
               lazy-rules
               required
               :rules="[
-                (val) => (val && val.length > 5) || 'Please type password confirmation',
+                (val) => (val && val.length > 6) || 'Please type password confirmation',
               ]"
             >
               <template v-slot:append>
@@ -71,8 +71,6 @@
               </template>
             </q-input>
 
-            
-
             <q-btn
                 label="Reset Password"
                 class="w-full q-mt-md q-py-xs"
@@ -81,7 +79,7 @@
                 color="primary"
             />
 
-
+            <div class="text-red" v-if="validation.message">{{ validation.message }}</div>
             <div class="float-right text-right q-mb-md">
               <div class="q-my-sm">
                 Are you login?
@@ -120,30 +118,52 @@ export default defineComponent({
       },
       isPwd: true,
       isPwd2: true,
+      validation: {
+        message: ''
+      }
     });
 
     onMounted(() => {
     });
 
     const onResetPassword = async () => {
-        await axios
-        .post((api.baseUrl+"reset-password", {
+        // await axios
+        // .post(api.baseUrl+'reset-password', {
+        //   token: root.$route.query.token,
+        //   email: state.form.email,
+        //   password: state.form.password,
+        //   password_confirmation: state.form.password_confirmation
+        // })
+        // .then((response) => {
+        //     console.log("response : ", response.message);
+        //     Notify.create({
+        //       type: 'positive',
+        //       message: response.data.message
+        //     })
+        //     root.$router.push({ path: "/login" });
+        // })
+        // .catch((error) => {
+        //   let errors = error.response.data
+        //   console.log(errors.message);
+        //   state.validation.message = errors.message;
+        // });
+
+        const fetchData = await api.doPost('reset-password', {
           token: root.$route.query.token,
           email: state.form.email,
           password: state.form.password,
-          password_confirmation: state.form.password_confirmation,
+          password_confirmation: state.form.password_confirmation
         })
-        .then((response) => {
-            console.log("response : ", response);
-            Notify.create({
-              type: 'positive',
-              message: response.data.message
-            })
-            root.$router.push({ path: "/login" });
-        })
-        .catch((error) => {
-          console.log(error);
-        }));
+        if(fetchData == null) {
+          console.log('gagal')
+          state.validation.message = "Data Failed!"
+        } else if (fetchData.statusText == "OK") {
+          Notify.create({
+            type: 'positive',
+            message: fetchData.data.message
+          })
+          root.$router.push({ path: "/login" });
+        }
     };
 
     return {

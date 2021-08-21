@@ -56,11 +56,11 @@ export default {
     },
 
     doPost: async (url, body) => {
-        let reqBody = null;
-        // const token = sessionStorage.getItem("token");
-        // axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+        const token = sessionStorage.getItem("token");
+        axios.defaults.headers.common.Authorization = `Bearer ${token}`;
         
-        // Request data
+        let reqBody = null;
+        
         if (!body) {
             reqBody = "";
         } else {
@@ -69,28 +69,15 @@ export default {
 
         const requestURL = baseURL + url;
 
-        const httpOptions = {
-            json: {
-                request: reqBody
-            },
-            timeout: 20000
-        };
-
         try {
-            const data = await axios
-            .post(requestURL, httpOptions)
-            .then((response) => {
-                console.log("response : ", response);
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-
-            const dataResponse = data;
+            const response = await axios.post(requestURL, reqBody);
+            // const data = await response.data;
+            const dataResponse = response;
+            // console.log('responsess', response);
 
             return dataResponse;
         } catch (error) {
-            error.message
+            console.log(error.message);
 
             return null;
         }

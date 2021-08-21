@@ -7,10 +7,11 @@
       <div class="q-ma-md">
         <q-card-section>
           <div class="text-h5 font-bold">
-            <!-- <q-icon name="lock" color="primary" class="q-mr-sm" /> -->
             Register
           </div>
-          <div class="text-gray-500">If you are in trouble, please register to report</div>
+          <div class="text-gray-500">
+            If you are in trouble, please register to report
+          </div>
         </q-card-section>
 
         <q-card-section>
@@ -21,20 +22,17 @@
               </template>
             </q-input>
 
-            <q-input outlined v-model="form.email" label="Email *" type="email" required>
+            <q-input
+              outlined
+              v-model="form.email"
+              label="Email *"
+              type="email"
+              required
+            >
               <template v-slot:append>
                 <q-icon name="email" class="cursor-pointer" />
               </template>
             </q-input>
-
-            <!-- <q-select
-              color="primary"
-              outlined
-              v-model="form.level"
-              :options="form.optionsLevel"
-              label="Level"
-              required
-            /> -->
 
             <q-input
               outlined
@@ -43,9 +41,11 @@
               :type="isPwd ? 'password' : 'text'"
               label="Password *"
               lazy-rules
-              counter 
+              counter
               :rules="[
-                (val) => (val && val.length > 5 && val.length <= 20) || 'The password must be at least 6 characters.',
+                (val) =>
+                  (val && val.length > 7 && val.length <= 20) ||
+                  'The password must be at least 8 characters.',
               ]"
             >
               <template v-slot:append>
@@ -60,8 +60,10 @@
             <div class="float-right text-right q-mb-md">
               <div class="q-mb-sm">
                 Not have account?
-                <!-- <a href="/login" class="text-bold underline"> Login</a> <br> -->
-                <router-link class="text-bold underline" to="/login">Login</router-link> <br>
+                <router-link class="text-bold underline" to="/login"
+                  >Login</router-link
+                >
+                <br />
                 Or back to
                 <a href="/" class="text-bold underline"> Home</a>
               </div>
@@ -97,69 +99,101 @@ import {
   onMounted,
 } from "@vue/composition-api";
 import axios from "axios";
+import api from "../api/fetch.api";
 import { Notify } from "quasar";
 
 export default defineComponent({
   props: {},
   setup(props, { root }) {
+    let responseRegister;
     const state = reactive({
+      isFetching: false,
       form: {
         name: "",
         email: "",
         password: "",
-        level: "",
-        optionsLevel: ["admin", "pengunjung", "camat"],
       },
       isPwd: true,
-      result: "",
-      count: 1,
       validation: false,
     });
 
     onMounted(() => {});
 
     const onRegister = async () => {
-      const name = state.form.name;
-      const email = state.form.email;
-      const password = state.form.password;
-      // const level = state.form.level;
+      state.isFetching = true;
+      async function asyncCall() {
+        const fetchLogin = await api.doPost("register", {
+          name: state.form.name,
+          email: state.form.email,
+          password: state.form.password,
+        });
 
-      const register = await axios
-        .post("http://localhost:8000/api/register", {
-          name,
-          email,
-          password,
-          // level,
-        })
-        .then((response) => {
-          console.log(response);
-
-          let responseAPI = response.data;
-          console.log("response : ", responseAPI);
-
-          if (responseAPI["success"] == false) {
+        if (fetchLogin) {
+          responseRegister = fetchLogin || [];
+          console.log("responseRegister", responseRegister);
+          if (responseRegister.data.success == true) {
             Notify.create({
-              message: responseAPI["message"],
-              icon: "error",
-              color: "red",
-            });
-          } else {
-            Notify.create({
-              message: responseAPI["message"],
-              icon: "check_circle",
-              color: "green",
+              type: "positive",
+              message: responseRegister.data.message,
             });
             root.$router.push({ path: "/login" });
+          } else {
           }
-        })
-        .catch((error) => {
-          // state.validation = error.response.data;
-          console.log(error.response.data.error.email[0]);
+        } else {
           Notify.create({
-            type: 'negative',
-            message: error.response.data.error.email[0]
-          })
-        });
+            message: "Please check your data",
+            type: "negative",
+          });
+          state.isFetching = true;
+          return false;
+        }
+      }
+      asyncCall();
+
+      // if (fetchData == null) {
+      //   state.validation.message = "Data Failed!";
+      // } else if (fetchData.statusText == "OK") {
+      //   Notify.create({
+      //     type: "positive",
+      //     message: fetchData.data.message,
+      //   });
+      //   root.$router.push({ path: "/login" });
+      // }
+
+      // const register = await axios
+      //   .post("http://localhost:8000/api/register", {
+      //     name,
+      //     email,
+      //     password,
+      //   })
+      //   .then((response) => {
+      //     console.log(response);
+
+      //     let responseAPI = response.data;
+      //     console.log("response : ", responseAPI);
+
+      //     if (responseAPI["success"] == false) {
+      //       Notify.create({
+      //         message: responseAPI["message"],
+      //         icon: "error",
+      //         color: "red",
+      //       });
+      //     } else {
+      //       Notify.create({
+      //         message: responseAPI["message"],
+      //         icon: "check_circle",
+      //         color: "green",
+      //       });
+      //       root.$router.push({ path: "/login" });
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.log(error.response.data.error.email[0]);
+      //     Notify.create({
+      //       type: 'negative',
+      //       message: error.response.data.error.email[0]
+      //     })
+      //   });
     };
 
     const onReset = () => {
