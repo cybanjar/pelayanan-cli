@@ -1,19 +1,19 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header class="bg-primary q-pa-sm q-gutter-y-sm" unelevated>
-      <q-toolbar class="text-white">
+    <q-header unelevated class="bg-white q-pa-sm q-gutter-y-sm">
+      <q-toolbar class="text-primary">
         <q-btn
           flat
           dense
           round
           icon="menu"
           aria-label="Menu"
-          color="primary"
           class="isMobileVisible"
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
 
-        <q-toolbar-title class=""> e-Pelayanan </q-toolbar-title>
+        <q-toolbar-title class="isMobileHidden "> <q-img class="w-8 h-8" src="../assets/Bookmark.svg"/> </q-toolbar-title>
+        <!-- <q-toolbar-title></q-toolbar-title> -->
 
         <q-toolbar-title class="isMobileHidden">
           <q-btn to="/" stretch flat label="Home" />
@@ -53,9 +53,9 @@
           <q-btn
             to="/login"
             class="shadow-xl px-2"
-            color="white"
+            color="primary"
             rounded
-            text-color="primary"
+            text-color="white"
             unelevated
             label="Login"
           />
