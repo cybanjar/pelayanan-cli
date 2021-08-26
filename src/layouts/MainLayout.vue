@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header class="bg-primary q-pa-sm q-gutter-y-sm" unelevated>
-      <q-toolbar class="text-white">
+    <q-header unelevated class="bg-white q-pa-sm q-gutter-y-sm">
+      <q-toolbar class="text-primary">
         <q-btn
           flat
           dense
@@ -53,9 +53,9 @@
           <q-btn
             to="/login"
             class="shadow-xl px-2"
-            color="white"
+            color="primary"
             rounded
-            text-color="primary"
+            text-color="white"
             unelevated
             label="Login"
           />
