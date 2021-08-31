@@ -132,14 +132,12 @@ export default defineComponent({
 
     const getDataPengaduan = async () => {
       const data = await api.doFetch("pengaduan");
-      console.log('data', data.data);
       charts = data.data || [];
       state.build = charts;
     }
 
     const fetchDataUser = async () => {
       const response = await api.doFetch("dataUser");
-      // console.log('responses', response);
 
       let dataPengunjung = response.filter(function (index){
         return index.level === 'pengunjung'

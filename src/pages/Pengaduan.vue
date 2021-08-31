@@ -187,7 +187,6 @@ export default defineComponent({
         .post(api.baseUrl+'pengaduan', data, config)
         .then((response) => {
           existingObj.success = response.data.success;
-          // console.log("response sukses: ", response.data.message);
           Notify.create({
             type: "positive",
             message: response.data.message,

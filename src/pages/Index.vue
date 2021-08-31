@@ -1,6 +1,6 @@
 <template>
   <q-page class="">
-    <div class="row justify-center q-py-lg">
+    <div class="row justify-center pt-16">
       <div class="col-md-6 text-center col-sm-8 col-xs-12">
         <q-img src="../assets/logo_brebes.png" class="img_logo q-mb-md" />
         <div class="text-h4 font-bold">Kecamatan Wanasari</div>
@@ -16,18 +16,6 @@
           sebelah utara. Kecamatan Wanasari juga dilalui oleh jalur pantura.
         </div>
       </div>
-    </div>
-
-    <div class="row bg-gray-100" style="min-height: 45vh">
-      <div v-for="n in 3" :key="n" class="col-md-4">
-        <q-card flat class="q-ma-lg">
-          <q-card-section>
-            {{ desc }}
-          </q-card-section>
-        </q-card>
-      </div>
-      <!-- <div class="col-md-4"></div>
-      <div class="col-md-4"></div> -->
     </div>
   </q-page>
 </template>

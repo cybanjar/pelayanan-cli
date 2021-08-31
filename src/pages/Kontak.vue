@@ -29,9 +29,18 @@
         </div>
       </div>
       <div class="col-md-4 col-sm-6 col-xs-12">
-        <q-card flat class="bg-gray-100 rounded-xl q-mt-md">
-          <div class="q-pa-lg">
-            <form>
+        <q-card flat class="bg-gray-50 rounded-xl shadow-lg q-mt-md">
+          <div class="">
+            <div class="text-h4 q-py-lg text-center font-semibold">
+              Maps <br />
+              Kantor Kecamatan Wanasari<span class="text-primary">.</span>
+            </div>
+            <q-card flat class="q-mt-md">
+              <q-card-section class="q-pa-none">
+                <div class="rounded-xl" id="map" style="width: 100%; height: 400px"></div>
+              </q-card-section>
+            </q-card>
+            <!-- <form>
               <q-card-section>
                 <div class="font-medium mb-3">
                   Silahkan isi form buat masukkan kami agar aplikasi lebih baik
@@ -107,20 +116,14 @@
                   required
                 />
               </q-card-section>
-            </form>
+            </form> -->
           </div>
         </q-card>
       </div>
     </div>
-    <div class="text-h4 q-mt-lg text-center font-semibold">
-      Maps <br />
-      Kantor Kecamatan Wanasari<span class="text-primary">.</span>
-    </div>
-    <q-card flat class="q-mt-md">
-      <q-card-section class="q-pa-none">
-        <div id="map" style="width: 100%; height: 400px"></div>
-      </q-card-section>
-    </q-card>
+    
+    
+    
   </q-page>
 </template>
 

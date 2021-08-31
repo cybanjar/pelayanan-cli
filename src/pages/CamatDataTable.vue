@@ -109,7 +109,6 @@ export default defineComponent({
           
           const data = response["data"]["data"]["data"];
           // state.dataPengaduan = response["data"]["data"]["data"];
-          console.log('data pengaduan',response["data"]["data"]["data"]);
 
           charts = data || [];
           state.build = charts;
@@ -117,7 +116,6 @@ export default defineComponent({
         })
         .catch(function (error) {
           // handle error
-          console.log(error);
         });
         
     };

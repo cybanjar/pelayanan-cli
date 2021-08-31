@@ -88,7 +88,6 @@ export default defineComponent({
           email: state.form.email,
         })
         .then((response) => {
-            console.log("response : ", response);
             Notify.create({
               type: 'positive',
               message: response.data.status

@@ -130,7 +130,6 @@ export default defineComponent({
 
         if (fetchLogin) {
           responseRegister = fetchLogin || [];
-          console.log("responseRegister", responseRegister);
           if (responseRegister.data.success == true) {
             Notify.create({
               type: "positive",
@@ -149,51 +148,6 @@ export default defineComponent({
         }
       }
       asyncCall();
-
-      // if (fetchData == null) {
-      //   state.validation.message = "Data Failed!";
-      // } else if (fetchData.statusText == "OK") {
-      //   Notify.create({
-      //     type: "positive",
-      //     message: fetchData.data.message,
-      //   });
-      //   root.$router.push({ path: "/login" });
-      // }
-
-      // const register = await axios
-      //   .post("http://localhost:8000/api/register", {
-      //     name,
-      //     email,
-      //     password,
-      //   })
-      //   .then((response) => {
-      //     console.log(response);
-
-      //     let responseAPI = response.data;
-      //     console.log("response : ", responseAPI);
-
-      //     if (responseAPI["success"] == false) {
-      //       Notify.create({
-      //         message: responseAPI["message"],
-      //         icon: "error",
-      //         color: "red",
-      //       });
-      //     } else {
-      //       Notify.create({
-      //         message: responseAPI["message"],
-      //         icon: "check_circle",
-      //         color: "green",
-      //       });
-      //       root.$router.push({ path: "/login" });
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     console.log(error.response.data.error.email[0]);
-      //     Notify.create({
-      //       type: 'negative',
-      //       message: error.response.data.error.email[0]
-      //     })
-      //   });
     };
 
     const onReset = () => {

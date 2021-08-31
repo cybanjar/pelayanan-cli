@@ -127,27 +127,6 @@ export default defineComponent({
     });
 
     const onResetPassword = async () => {
-        // await axios
-        // .post(api.baseUrl+'reset-password', {
-        //   token: root.$route.query.token,
-        //   email: state.form.email,
-        //   password: state.form.password,
-        //   password_confirmation: state.form.password_confirmation
-        // })
-        // .then((response) => {
-        //     console.log("response : ", response.message);
-        //     Notify.create({
-        //       type: 'positive',
-        //       message: response.data.message
-        //     })
-        //     root.$router.push({ path: "/login" });
-        // })
-        // .catch((error) => {
-        //   let errors = error.response.data
-        //   console.log(errors.message);
-        //   state.validation.message = errors.message;
-        // });
-
         const fetchData = await api.doPost('reset-password', {
           token: root.$route.query.token,
           email: state.form.email,

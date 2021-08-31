@@ -132,7 +132,6 @@ export default defineComponent({
         })
         .then((response) => {
           let responseAPI = response.data;
-          console.log("response : ", responseAPI);
 
           if (responseAPI["success"] == false) {
             Notify.create({
@@ -147,7 +146,6 @@ export default defineComponent({
               color: "red",
             });
             sessionStorage.setItem("token", responseAPI["access_token"]);
-            console.log('token', responseAPI["access_token"])
             root.$router.push({path: "/verify-email"})
           } else {
             Notify.create({

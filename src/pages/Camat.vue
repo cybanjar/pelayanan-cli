@@ -133,34 +133,11 @@ export default defineComponent({
       const response = await api.doFetch("pengaduan");
       state.searches.isFetching = true;
       state.dataPengaduan = response["data"];
-      console.log(response.data);
     };
 
     const loadMore = async () => {
       const response = await api.doFetch("pengaduan/?page=" + page++);
       state.dataPengaduan = response["data"];
-      
-      // await axios
-      //   .get(
-      //     "https://api.akusaralawoffice.com/api_pelayanan/api/pengaduan/?page=" +
-      //       page++,
-      //     {}
-      //   )
-      //   .then(function (response) {
-      //     const data = response["data"]["data"]["data"];
-      //     state.dataPengaduan = data;
-      //     console.log("data pengaduan", data);
-      //     if (data.length == 0) {
-      //       console.log("gak ada data");
-      //       Notify.create({
-      //         type: "negative",
-      //         message: "No data",
-      //       });
-      //     }
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error);
-      //   });
     };
 
     const tableHeaders = [
