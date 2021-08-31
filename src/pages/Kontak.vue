@@ -2,20 +2,20 @@
   <q-page class="">
     <div class="row justify-center">
       <div class="col-md-5 col-sm-6 col-xs-12">
-        <div class="text-h4 text-weight-bold q-my-md">Get a quote</div>
+        <div class="text-h4 text-weight-bold q-my-md">Kontak Kami</div>
         <div class="text-gray-700">
-          Fill up the form and our team will get back to you within 24 hours.
+          <!-- Fill up the form and our team will get back to you within 24 hours. -->
         </div>
         <div class="q-mt-xl q-gutter-lg column">
           <div class="col">
-            <q-btn flat icon="phone" label="+6287830120049" />
+            <q-btn flat icon="phone" label="(0283) 671829" />
           </div>
           <div class="col">
             <q-btn
               flat
               class="text-lowercase"
               icon="mail"
-              label="admin@pelayanan.com"
+              label="kecamatanwanasari@gmail.com"
             />
           </div>
           <div class="col">
@@ -23,7 +23,7 @@
               flat
               class="text-lowercase"
               icon="edit_location"
-              label="102 streat kalibata city"
+              label="Jl. Raya Klampok No. 14 Brebes"
             />
           </div>
         </div>
@@ -112,10 +112,13 @@
         </q-card>
       </div>
     </div>
-    <div class="text-h4 q-mt-lg text-center font-semibold">Maps <br> Kantor Kecamatan Wanasari<span class="text-primary">.</span> </div>
-    <q-card flat  class="q-mt-md">
+    <div class="text-h4 q-mt-lg text-center font-semibold">
+      Maps <br />
+      Kantor Kecamatan Wanasari<span class="text-primary">.</span>
+    </div>
+    <q-card flat class="q-mt-md">
       <q-card-section class="q-pa-none">
-        <div id="map" style="width:100%;height:400px"></div>
+        <div id="map" style="width: 100%; height: 400px"></div>
       </q-card-section>
     </q-card>
   </q-page>
@@ -147,14 +150,17 @@ export default defineComponent({
     });
 
     const myMap = () => {
-      let myCenter = new google.maps.LatLng(-6.864447301724536, 109.00559261929719);
+      let myCenter = new google.maps.LatLng(
+        -6.864447301724536,
+        109.00559261929719
+      );
       // -6.307318045365646, 106.83700708239041
-		  let mapCanvas = document.getElementById("map");
-		  let mapOptions = {center: myCenter, zoom: 5};
-		  let map = new google.maps.Map(mapCanvas, mapOptions);
-		  let marker = new google.maps.Marker({position:myCenter});
-		  marker.setMap(map);
-    }
+      let mapCanvas = document.getElementById("map");
+      let mapOptions = { center: myCenter, zoom: 5 };
+      let map = new google.maps.Map(mapCanvas, mapOptions);
+      let marker = new google.maps.Marker({ position: myCenter });
+      marker.setMap(map);
+    };
 
     // wanasari -6.864447301724536, 109.00559261929719
 

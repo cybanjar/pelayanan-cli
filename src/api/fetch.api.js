@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// const baseURL = "http://localhost:8000/api/";
-const baseURL = "https://api.akusaralawoffice.com/api_pelayanan/api/";
+const baseURL = "http://localhost:8000/api/";
+// const baseURL = "https://api.akusaralawoffice.com/api_pelayanan/api/";
 
 export default {
     baseUrl: baseURL,
@@ -9,14 +9,14 @@ export default {
         let reqBody = null;
         const token = sessionStorage.getItem("token");
         axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-        
+
         // Request data
         if (!body) {
             reqBody = "";
         } else {
             reqBody = body;
         }
-        
+
         // Request headers
         let reqHeaders = null;
         const configHeaders = {
@@ -58,9 +58,9 @@ export default {
     doPost: async (url, body) => {
         const token = sessionStorage.getItem("token");
         axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-        
+
         let reqBody = null;
-        
+
         if (!body) {
             reqBody = "";
         } else {

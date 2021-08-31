@@ -8,21 +8,19 @@
           Kabupaten Brebes
         </div>
         <div class="text-gray-700 q-mt-md">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit,
-          odio. Laboriosam ex repudiandae repellendus rerum facere modi,
-          voluptatum culpa! Quia possimus impedit iste est. Voluptates adipisci
-          nulla laudantium eligendi quibusdam! Lorem ipsum dolor sit amet
-          consectetur adipisicing elit. Suscipit, odio. Laboriosam ex
-          repudiandae repellendus rerum facere modi, voluptatum culpa! Quia
-          possimus impedit iste est. Voluptates adipisci nulla laudantium
-          eligendi quibusdam!
+          Wanasari adalah sebuah kecamatan di Kabupaten Brebes, Provinsi Jawa
+          Tengah, Indonesia. Pusat pemerintahannya bertempat di desa Klampok.
+          Kecamatan Wanasari berbatasan dengan kecamatan Bulakamba di sebelah
+          barat, dengan kecamatan Brebes di sebelah barat, dengan kecamatan
+          Jatibarang dan Larangan di sebelah selatan dan Laut Utara Jawa di
+          sebelah utara. Kecamatan Wanasari juga dilalui oleh jalur pantura.
         </div>
       </div>
     </div>
 
     <div class="row bg-gray-100" style="min-height: 45vh">
       <div v-for="n in 3" :key="n" class="col-md-4">
-        <q-card  flat class="q-ma-lg">
+        <q-card flat class="q-ma-lg">
           <q-card-section>
             {{ desc }}
           </q-card-section>
@@ -47,11 +45,10 @@ export default defineComponent({
 
   setup(props, { root: { $router } }) {
     const state = reactive({
-      desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+      desc: "",
     });
 
-    onMounted(() => {
-    });
+    onMounted(() => {});
 
     return {
       ...toRefs(state),
