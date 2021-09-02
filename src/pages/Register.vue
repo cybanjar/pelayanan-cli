@@ -127,7 +127,7 @@ export default defineComponent({
           email: state.form.email,
           password: state.form.password,
         });
-
+        console.log('response register :', fetchLogin);
         if (fetchLogin) {
           responseRegister = fetchLogin || [];
           if (responseRegister.data.success == true) {

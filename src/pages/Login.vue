@@ -131,8 +131,8 @@ export default defineComponent({
           password : state.form.password
         })
         .then((response) => {
+          console.log('response login', response);
           let responseAPI = response.data;
-
           if (responseAPI["success"] == false) {
             Notify.create({
               message: responseAPI["message"],
